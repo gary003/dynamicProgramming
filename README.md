@@ -1,5 +1,6 @@
 # dynamicProgramming
-few DP problemes from different sites
+
+few DP problems from different sites
 
 - Alvin from freeCodeCamp (youtube video)
 - codeWars for the change problems
