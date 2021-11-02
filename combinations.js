@@ -62,27 +62,44 @@ const combinationsRedableHO = (arr) => {
   return resultTable[arr.length]
 }
 
+const combinationsPush = (arr) => {
+  let result = [""]
+
+  for (let letter of arr) {
+    result = result.concat(result.map((val) => val.concat(letter)))
+  }
+
+  return result
+}
+
+const testArray = "ABCDEFGHI".split("")
+
 console.time("combinationsTree")
-const comb1 = combinationsTree(["A", "B", "C", "D", "E", "F", "G"])
+const comb1 = combinationsTree(testArray)
 // console.log(comb1)
 console.timeEnd("combinationsTree")
 
 console.time("combinationsTreeDP")
-const comb2 = combinationsTreeDP(["A", "B", "C", "D", "E", "F", "G"])
+const comb2 = combinationsTreeDP(testArray)
 // console.log((comb2)
 console.timeEnd("combinationsTreeDP")
 
 console.time("combinationsTab")
-const comb3 = combinationsTab(["A", "B", "C", "D", "E", "F", "G"])
+const comb3 = combinationsTab(testArray)
 // console.log(comb3)
 console.timeEnd("combinationsTab")
 
 console.time("combinationsTab2")
-const comb4 = combinationsTab2(["A", "B", "C", "D", "E", "F", "G"])
+const comb4 = combinationsTab2(testArray)
 // console.log(comb4)
 console.timeEnd("combinationsTab2")
 
 console.time("combinationsRedableHO")
-const comb5 = combinationsRedableHO(["A", "B", "C", "D", "E", "F", "G"])
+const comb5 = combinationsRedableHO(testArray)
 // console.log(comb5)
 console.timeEnd("combinationsRedableHO")
+
+console.time("combinationsPush")
+const comb6 = combinationsPush(testArray)
+// console.log(comb6)
+console.timeEnd("combinationsPush")
