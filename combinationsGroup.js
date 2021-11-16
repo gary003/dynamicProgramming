@@ -7,8 +7,6 @@ const makeGroups = (arr, groupLength = 2) => {
       .map((x) => [...x, arr[i - 1]])
       .concat(result[i - 1])
       .filter((x) => x.length <= groupLength)
-
-    // .concat([Array(groupLength).fill(arr[i - 1])])
   }
 
   return result[arr.length].filter((x) => x.length == groupLength)
