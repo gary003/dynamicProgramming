@@ -15,6 +15,23 @@ const changeTab = (money, coins) => {
   const res = Array(money + 1).fill([])
   res[0] = [[]]
 
+  for (let coin of coins) {
+    for (let iMoney = 0; iMoney <= money; iMoney++) {
+      if (iMoney + coin <= money) {
+        const subChange = res[iMoney]
+        const newChg = subChange.map((x) => [...x, coin])
+        res[iMoney + coin] = [...res[iMoney + coin], ...newChg]
+      }
+    }
+  }
+
+  return res[money]
+}
+
+const changeTabAllOrders = (money, coins) => {
+  const res = Array(money + 1).fill([])
+  res[0] = [[]]
+
   for (let iMoney = 0; iMoney <= money; iMoney++) {
     if (res[iMoney].length > 0) {
       for (let coin of coins) {
@@ -79,27 +96,35 @@ const changeHF = (money, coins, change = [], res = []) => {
   return res
 }
 
+const target = 31
+const coins = [11, 12, 8, 7, 5]
+
 console.time("changeRec")
-// console.log(changeRec(120, [2, 5, 7]))
-const result1 = changeRec(50, [2, 5, 7])
+// console.log(changeRec(target, coins))
+const result1 = changeRec(target, coins)
 console.timeEnd("changeRec")
 
 console.time("changeTab")
-// console.log(changeTab(20, [2, 5, 7]))
-const result2 = changeTab(50, [2, 5, 7])
+// console.log(changeTab(target, coins))
+const result2 = changeTab(target, coins)
 console.timeEnd("changeTab")
 
+console.time("changeTabAllOrders")
+// console.log(changeTabAllOrders(target, coins))
+const result2Prime = changeTabAllOrders(target, coins)
+console.timeEnd("changeTabAllOrders")
+
 console.time("changeTab2")
-// console.log(changeTab2(20, [2, 5, 7]))
-const result2Bis = changeTab2(50, [2, 5, 7])
+// console.log(changeTab2(target, coins))
+const result2Bis = changeTab2(target, coins)
 console.timeEnd("changeTab2")
 
 console.time("changeHF")
-// console.log(changeHF(20, [2, 5, 7]))
-const result3 = changeHF(50, [2, 5, 7])
+// console.log(changeHF(target, coins))
+const result3 = changeHF(target, coins)
 console.timeEnd("changeHF")
 
 console.time("changeRecTer")
-// console.log(changeRecTer(12, [2, 5, 7]))
-const result4 = changeRecTer(50, [2, 5, 7])
+// console.log(changeRecTer(target, coins))
+const result4 = changeRecTer(target, coins)
 console.timeEnd("changeRecTer")
