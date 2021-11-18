@@ -96,35 +96,35 @@ const changeHF = (money, coins, change = [], res = []) => {
   return res
 }
 
-const target = 31
-const coins = [11, 12, 8, 7, 5]
+const target = 22
+const coins = [11, 8, 7, 5]
 
 console.time("changeRec")
-// console.log(changeRec(target, coins))
 const result1 = changeRec(target, coins)
+// console.log(result1)
 console.timeEnd("changeRec")
 
 console.time("changeTab")
-// console.log(changeTab(target, coins))
 const result2 = changeTab(target, coins)
+// console.log(result2)
 console.timeEnd("changeTab")
 
 console.time("changeTabAllOrders")
-// console.log(changeTabAllOrders(target, coins))
 const result2Prime = changeTabAllOrders(target, coins)
+//console.log(result2Prime)
 console.timeEnd("changeTabAllOrders")
 
 console.time("changeTab2")
-// console.log(changeTab2(target, coins))
 const result2Bis = changeTab2(target, coins)
+// console.log(result2Bis)
 console.timeEnd("changeTab2")
 
 console.time("changeHF")
-// console.log(changeHF(target, coins))
 const result3 = changeHF(target, coins)
+// console.log(result3)
 console.timeEnd("changeHF")
 
 console.time("changeRecTer")
-// console.log(changeRecTer(target, coins))
 const result4 = changeRecTer(target, coins)
+// console.log(result4)
 console.timeEnd("changeRecTer")
