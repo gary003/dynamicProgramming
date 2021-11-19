@@ -7,33 +7,25 @@ const fibMemo = (num, memo = {}) => {
   memo[num] = fibMemo(num - 1, memo) + fibMemo(num - 2, memo)
   return memo[num]
 }
+
 console.time("fibMemo")
-console.log(fibMemo(1200))
+console.log(fibMemo(5))
 console.timeEnd("fibMemo")
 
 const fibTab = (num) => {
   const arr = Array(num + 1).fill(0)
+  arr[0] = 0
   arr[1] = 1
 
-  // Methode 1
-  // for(let index = 0; index <= num; index+=1){
-  //   index + 1 <= num ? arr[index + 1] += arr[index] : 0
-  //   index + 2 <= num ? arr[index + 2] += arr[index] : 0
-  // }
+  for (let index = 2; index <= num; index += 1) {
+    arr[index] += arr[index - 1] + arr[index - 2]
+  }
 
-  // return arr[num]
-
-  // Methode 2
-  const res = arr.reduce((acc, val, index) => {
-    index + 1 <= num ? (acc[index + 1] += val) : 0
-    index + 2 <= num ? (acc[index + 2] += val) : 0
-    return acc
-  }, arr)
-
-  return res[num]
+  return arr[num]
 }
+
 console.time("fibTab")
-console.log(fibTab(1200))
+console.log(fibTab(5))
 console.timeEnd("fibTab")
 
 /*******************************************/
@@ -99,7 +91,9 @@ const canSumMemo = (num, numbers, res = false, memo = {}) => {
   return res
 }
 
-console.log(canSumMemo(300, [7, 14]))
+console.log(canSumMemo(31, [4, 10]))
+console.log(canSumMemo(8, [4, 5, 3]))
+console.log(canSumMemo(100, [30, 25, 2]))
 
 const canSumTab = (num, numbers) => {
   const res = Array(num + 1).fill(false)
@@ -123,7 +117,9 @@ const canSumTab = (num, numbers) => {
   return res[num]
 }
 
-console.log(canSumTab(100, [7, 14]))
+console.log(canSumTab(31, [4, 10]))
+console.log(canSumTab(8, [4, 5, 3]))
+console.log(canSumTab(100, [30, 25, 2]))
 
 /*******************************************/
 /*********        howSum         ***********/
@@ -144,9 +140,9 @@ const howSumMemo = (targetNum, numbers, memo = {}) => {
   memo[targetNum] = null
   return null
 }
-
-console.log(howSumMemo(300, [7, 14]))
-console.log(howSumMemo(28, [7, 14]))
+console.log(howSumMemo(31, [4, 10]))
+console.log(howSumMemo(8, [4, 5, 3]))
+console.log(howSumMemo(100, [30, 25, 2]))
 
 const howSumTab = (targetNum, numbers, memo = {}) => {
   const res = Array(targetNum + 1).fill(null)
@@ -163,7 +159,9 @@ const howSumTab = (targetNum, numbers, memo = {}) => {
   return res[targetNum]
 }
 
-console.log(howSumTab(28, [7, 3]))
+console.log(howSumTab(31, [4, 10]))
+console.log(howSumTab(8, [4, 5, 3]))
+console.log(howSumTab(100, [30, 25, 2]))
 
 /*******************************************/
 /*****  bestSum (shortest result)  *********/
@@ -191,6 +189,7 @@ const bestSumMemo = (targetSum, numbers, memo = {}) => {
   return shortestCombination
 }
 
+console.log(bestSumMemo(31, [4, 10]))
 console.log(bestSumMemo(8, [4, 5, 3]))
 console.log(bestSumMemo(100, [30, 25, 2]))
 
@@ -214,6 +213,7 @@ const bestSumTab = (targetSum, numbers) => {
   return result[targetSum]
 }
 
+console.log(bestSumTab(31, [4, 10]))
 console.log(bestSumTab(8, [4, 5, 3]))
 console.log(bestSumTab(100, [30, 25, 2]))
 
@@ -239,6 +239,7 @@ const canConstructMemo = (word, suffixes, memo = {}) => {
   return false
 }
 
+console.log(canConstructMemo("azerty", ["zer", "er", "t", "ty", "y"]))
 console.log(canConstructMemo("azerty", ["a", "azer", "zer", "az", "er", "t", "ty", "y"]))
 console.log(canConstructMemo("skateboard", ["s", "boar", "ate", "te", "d", "ka", "e", "rd", "ska"]))
 console.log(canConstructMemo("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef", ["eee", "eeeeee", "ee", "eeee", "e"]))
@@ -259,6 +260,7 @@ const canConstructTab = (word, suffixes) => {
   return table[word.length]
 }
 
+console.log(canConstructTab("azerty", ["zer", "er", "t", "ty", "y"]))
 console.log(canConstructTab("azerty", ["a", "azer", "zer", "az", "er", "t", "ty", "y"]))
 console.log(canConstructTab("skateboard", ["s", "bo", "boar", "ate", "te", "d", "ka", "e", "rd", "ska"]))
 console.log(canConstructTab("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef", ["eee", "eeeeee", "eeee", "e"]))
@@ -283,6 +285,7 @@ const countConstructTab = (word, suffixes) => {
   return table[word.length]
 }
 
+console.log(countConstructTab("azerty", ["zer", "er", "t", "ty", "y"]))
 console.log(countConstructTab("azerty", ["a", "azer", "zer", "az", "er", "t", "ty", "y"]))
 console.log(countConstructTab("skateboard", ["s", "bo", "boar", "ate", "te", "d", "ka", "e", "ard", "ska"]))
 console.log(countConstructTab("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef", ["eee", "ee", "eeeeee", "eeee", "e", "f"]))
@@ -302,6 +305,7 @@ const countConstructMemo = (word, suffixes, memo = {}) => {
   return numOfWays
 }
 
+console.log(countConstructMemo("azerty", ["zer", "er", "t", "ty", "y"]))
 console.log(countConstructMemo("azerty", ["a", "azer", "zer", "az", "er", "t", "ty", "y"]))
 console.log(countConstructMemo("skateboard", ["s", "bo", "boar", "ate", "te", "d", "ka", "e", "ard", "ska"]))
 console.log(countConstructMemo("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef", ["eee", "ee", "eeeeee", "eeee", "e", "f"]))
@@ -352,6 +356,7 @@ const allConstructTab = (word, suffixes) => {
   return table[word.length]
 }
 
+console.log(allConstructTab("azerty", ["zer", "er", "t", "ty", "y"]))
 console.log(allConstructTab("azerty", ["a", "azer", "zer", "az", "er", "t", "ty", "y"]))
 console.log(allConstructTab("skateboard", ["s", "bo", "boar", "ate", "te", "d", "ka", "e", "ard", "ska"]))
 console.log(allConstructTab("abcdef", ["ab", "abc", "cd", "def", "abcd", "ef", "c"]))
@@ -375,6 +380,7 @@ const allConstructMemo = (word, suffixes, memo = {}) => {
   return result
 }
 
+console.log(allConstructMemo("azerty", ["zer", "er", "t", "ty", "y"]))
 console.log(allConstructMemo("azerty", ["a", "azer", "zer", "az", "er", "t", "ty", "y"]))
 console.log(allConstructMemo("skateboard", ["s", "bo", "boar", "ate", "te", "d", "ka", "e", "ard", "ska"]))
 console.log(allConstructMemo("abcdef", ["ab", "abc", "cd", "def", "abcd", "ef", "c"]))
