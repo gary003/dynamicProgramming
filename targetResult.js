@@ -46,28 +46,17 @@ console.timeEnd("gridTravelerMemo")
 const gridTravelerTab = (height, width, memo = {}) => {
   const arr = Array(height + 1)
     .fill()
-    .map((x) => Array(width + 1).fill(0))
+    .map((_) => Array(width + 1).fill(0))
 
   arr[1][1] = 1
 
-  const res = arr.reduce((accH, valH, indexH) => {
-    valH.reduce((accW, valW, indexW) => {
-      indexH + 1 <= height ? (arr[indexH + 1][indexW] += valW) : 0
-      indexW + 1 <= width ? (arr[indexH][indexW + 1] += valW) : 0
-      return accW
-    })
-    return accH
-  }, arr)
+  for (let indexH = 0; indexH <= height; indexH += 1)
+    for (let indexW = 0; indexW <= width; indexW += 1) {
+      if (indexH + 1 <= height) arr[indexH + 1][indexW] += arr[indexH][indexW]
+      if (indexW + 1 <= width) arr[indexH][indexW + 1] += arr[indexH][indexW]
+    }
 
-  return res[height][width]
-
-  // for(let indexH = 0; indexH <= height; indexH +=1)
-  //   for(let indexW = 0; indexW <= width; indexW +=1){
-  //     if(indexH + 1 <= height) arr[indexH+1][indexW] += arr[indexH][indexW]
-  //     if(indexW + 1 <= width) arr[indexH][indexW+1] += arr[indexH][indexW]
-  //   }
-
-  // return arr[height][width]
+  return arr[height][width]
 }
 
 console.time("gridTravelerTab")
@@ -222,13 +211,11 @@ const canConstructMemo = (word, suffixes, memo = {}) => {
     const newSlicedWord = word.slice(validSuffix.length)
     const canConstruct = canConstructMemo(newSlicedWord, suffixes, memo)
     if (canConstruct) {
-      memo[word] = true
-      return true
+      return (memo[word] = true)
     }
   }
 
-  memo[word] = false
-  return false
+  return (memo[word] = false)
 }
 
 console.log(canConstructMemo("azerty", ["zer", "er", "t", "ty", "y"]))
@@ -312,10 +299,9 @@ const allConstructTab = (word, suffixes) => {
 
   for (let i = 0; i < word.length; i += 1) {
     for (let suffix of suffixes) {
-      if (word.slice(i).indexOf(suffix) == 0) {
-        const newComb = table[i].map((val) => val + "." + suffix)
-        table[i + suffix.length] = [...table[i + suffix.length], ...newComb]
-      }
+      if (word.slice(i).indexOf(suffix) !== 0) continue
+      const newComb = table[i].map((val) => (val.length > 0 ? val + "." + suffix : suffix))
+      table[i + suffix.length] = [...table[i + suffix.length], ...newComb]
     }
   }
 
