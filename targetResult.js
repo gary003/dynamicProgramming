@@ -99,14 +99,6 @@ const canSumTab = (num, numbers) => {
   const res = Array(num + 1).fill(false)
   res[0] = true
 
-  // res.reduce((acc,val,idx) => {
-  //   if(val == true){
-  //     numbers.reduce((acc2,val2) => {
-  //       if(idx + val2 <= num) res[idx + val2] = true
-  //     },0)
-  //   }
-  // },res)
-
   for (let i = 0; i < num; i += 1)
     if (res[i] == true) {
       for (let value of numbers) {
@@ -313,32 +305,6 @@ console.log(countConstructMemo("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef", ["eee"
 /*******************************************/
 /*****         allConstruct        *********/
 /*******************************************/
-
-// const allConstructTab = (word, suffixes) => {
-//   const table = Array(word.length + 1).fill(null)
-//   table[0] = []
-
-//   for (let i = 0; i < word.length; i += 1) {
-//     if (table[i] !== null) {
-//       const validSubSuffixes = suffixes.filter((suffix) => word.slice(i).indexOf(suffix) == 0)
-//       for (let validSuffix of validSubSuffixes) {
-//         if (table[validSuffix.length + i] == null && table[i].length == 0) {
-//           table[validSuffix.length + i] = table[i].concat(validSuffix)
-//         } else if (table[validSuffix.length + i] == null && table[i].length > 0) {
-//           for (let s of table[i]) {
-//             table[validSuffix.length + i] = table[i].map((val) => val + "." + validSuffix)
-//           }
-//         } else {
-//           for (let s of table[i]) {
-//             table[validSuffix.length + i].push(s + "." + validSuffix)
-//           }
-//         }
-//       }
-//     }
-//   }
-//   console.log(table)
-//   return table[word.length]
-// }
 
 const allConstructTab = (word, suffixes) => {
   const table = Array(word.length + 1).fill([])
