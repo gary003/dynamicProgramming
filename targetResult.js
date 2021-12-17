@@ -18,7 +18,7 @@ const fibTab = (num) => {
   arr[1] = 1
 
   for (let index = 2; index <= num; index += 1) {
-    arr[index] += arr[index - 1] + arr[index - 2]
+    arr[index] = arr[index - 1] + arr[index - 2]
   }
 
   return arr[num]
@@ -43,7 +43,7 @@ console.time("gridTravelerMemo")
 console.log(gridTravelerMemo(35, 35))
 console.timeEnd("gridTravelerMemo")
 
-const gridTravelerTab = (height, width, memo = {}) => {
+const gridTravelerTab = (height, width) => {
   const arr = Array(height + 1)
     .fill()
     .map((_) => Array(width + 1).fill(0))
@@ -121,11 +121,12 @@ const howSumMemo = (targetNum, numbers, memo = {}) => {
   memo[targetNum] = null
   return null
 }
+
 console.log(howSumMemo(31, [4, 10]))
 console.log(howSumMemo(8, [4, 5, 3]))
 console.log(howSumMemo(100, [30, 25, 2]))
 
-const howSumTab = (targetNum, numbers, memo = {}) => {
+const howSumTab = (targetNum, numbers) => {
   const res = Array(targetNum + 1).fill(null)
   res[0] = []
 
