@@ -1,3 +1,62 @@
+const changeTab = (money, coins) => {
+  const res = Array(money + 1)
+    .fill()
+    .map((_) => [])
+
+  res[0] = [[]]
+
+  for (let coin of coins) {
+    for (let iMoney = 0; iMoney <= money - coin; iMoney++) {
+      const subChange = res[iMoney]
+      const newChg = subChange.map((x) => x.concat(coin))
+      res[iMoney + coin] = res[iMoney + coin].concat(newChg)
+    }
+  }
+
+  return res[money]
+}
+
+const changeTab2 = (money, coins) => {
+  const res = Array(money + 1)
+    .fill()
+    .map((_) => [])
+  res[0] = [[]]
+
+  for (let coin of coins)
+    for (let iMoney = coin; iMoney <= money; iMoney++) {
+      const subChange = res[iMoney - coin]
+      const newChg = subChange.map((x) => x.concat(coin))
+      res[iMoney] = res[iMoney].concat(newChg)
+    }
+
+  return res[money]
+}
+
+const changeHF = (money, coins, change = [], res = []) => {
+  if (money === 0) return res.push(change)
+  if (money < 0) return 0
+  coins.reduce((_, c, i) => changeHF(money - c, coins.slice(i), change.concat(c), res), 0)
+  return res
+}
+
+const target = 52
+const coins = [11, 8, 7, 5]
+
+console.time("changeTab")
+const result2 = changeTab(target, coins)
+// console.log(result2)
+console.timeEnd("changeTab")
+
+console.time("changeTab2")
+const result2Bis = changeTab2(target, coins)
+// console.log(result2Bis)
+console.timeEnd("changeTab2")
+
+console.time("changeHF")
+const result3 = changeHF(target, coins)
+// console.log(result3)
+console.timeEnd("changeHF")
+
 const changeRec = (amount, coins, change = [], res = []) => {
   let [coin, ...rest] = coins
 
@@ -9,62 +68,6 @@ const changeRec = (amount, coins, change = [], res = []) => {
   changeRec(amount, rest, change, res)
 
   return res
-}
-
-const changeTab = (money, coins) => {
-  const res = Array(money + 1).fill([])
-  res[0] = [[]]
-
-  for (let coin of coins) {
-    for (let iMoney = 0; iMoney <= money; iMoney++) {
-      if (iMoney + coin <= money) {
-        const subChange = res[iMoney]
-        const newChg = subChange.map((x) => [...x, coin])
-        res[iMoney + coin] = [...res[iMoney + coin], ...newChg]
-      }
-    }
-  }
-
-  return res[money]
-}
-
-const changeTabAllOrders = (money, coins) => {
-  const res = Array(money + 1).fill([])
-  res[0] = [[]]
-
-  for (let iMoney = 0; iMoney <= money; iMoney++) {
-    if (res[iMoney].length > 0) {
-      for (let coin of coins) {
-        if (iMoney + coin <= money) {
-          const subChange = res[iMoney]
-          const newChg = subChange.map((x) => [...x, coin])
-          res[iMoney + coin] = [...res[iMoney + coin], ...newChg]
-        }
-      }
-    }
-  }
-
-  return res[money]
-}
-
-const changeTab2 = (money, coins) => {
-  const res = Array(money + 1).fill([])
-  res[0] = [[]]
-
-  for (let coin of coins)
-    for (let iMoney = coin; iMoney <= money; iMoney++) {
-      // this variable contains the subProblem for the current iMoney
-      const subChange = res[iMoney - coin]
-
-      /* we check the change value for the current change + the coin 
-      and update the res (for each change previously calculated)
-      We filter the original null value from the parameter(first value of res) */
-      const newChg = subChange.map((x) => [...x, coin])
-      // We add the new change to the res
-      res[iMoney] = [...res[iMoney], ...newChg]
-    }
-
-  return res[money]
 }
 
 const changeRecTer = (money, coins, indexCoin = 0, indexMoney = coins[0], result = [[[]]].concat(Array(money).fill([]))) => {
@@ -89,42 +92,36 @@ const changeRecTer = (money, coins, indexCoin = 0, indexMoney = coins[0], result
   return changeRecTer(money, coins, indexCoin, indexMoney, result)
 }
 
-const changeHF = (money, coins, change = [], res = []) => {
-  if (money === 0) return res.push(change)
-  if (money < 0) return 0
-  coins.reduce((a, c, i) => changeHF(money - c, coins.slice(i), change.concat(c), res), 0)
-  return res
-}
+const changeTabAllOrders = (money, coins) => {
+  const res = Array(money + 1).fill([])
+  res[0] = [[]]
 
-const target = 22
-const coins = [11, 8, 7, 5]
+  for (let iMoney = 0; iMoney <= money; iMoney++) {
+    if (res[iMoney].length > 0) {
+      for (let coin of coins) {
+        if (iMoney + coin <= money) {
+          const subChange = res[iMoney]
+          const newChg = subChange.map((x) => [...x, coin])
+          res[iMoney + coin] = [...res[iMoney + coin], ...newChg]
+        }
+      }
+    }
+  }
+
+  return res[money]
+}
 
 console.time("changeRec")
 const result1 = changeRec(target, coins)
 // console.log(result1)
 console.timeEnd("changeRec")
 
-console.time("changeTab")
-const result2 = changeTab(target, coins)
-// console.log(result2)
-console.timeEnd("changeTab")
+console.time("changeRecTer")
+const result4 = changeRecTer(target, coins)
+// console.log(result4)
+console.timeEnd("changeRecTer")
 
 console.time("changeTabAllOrders")
 const result2Prime = changeTabAllOrders(target, coins)
 //console.log(result2Prime)
 console.timeEnd("changeTabAllOrders")
-
-console.time("changeTab2")
-const result2Bis = changeTab2(target, coins)
-// console.log(result2Bis)
-console.timeEnd("changeTab2")
-
-console.time("changeHF")
-const result3 = changeHF(target, coins)
-// console.log(result3)
-console.timeEnd("changeHF")
-
-console.time("changeRecTer")
-const result4 = changeRecTer(target, coins)
-// console.log(result4)
-console.timeEnd("changeRecTer")
