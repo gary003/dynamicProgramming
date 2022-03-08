@@ -5,14 +5,12 @@ const changeTab1 = (money, coins) => {
 
   res[0] = [[]]
 
-  for (let coin of coins) {
-    for (let iMoney = 0; iMoney <= money - coin; iMoney++) {
-      // if (res[iMoney].length === 0) continue
-      const subChange = res[iMoney]
+  for (let coin of coins)
+    for (let iMoney = coin; iMoney <= money; iMoney++) {
+      const subChange = res[iMoney - coin]
       const newChg = subChange.map((x) => x.concat(coin))
-      res[iMoney + coin] = res[iMoney + coin].concat(newChg)
+      res[iMoney] = res[iMoney].concat(newChg)
     }
-  }
 
   return res[money]
 }
@@ -24,12 +22,14 @@ const changeTab2 = (money, coins) => {
 
   res[0] = [[]]
 
-  for (let coin of coins)
-    for (let iMoney = coin; iMoney <= money; iMoney++) {
-      const subChange = res[iMoney - coin]
+  for (let coin of coins) {
+    for (let iMoney = 0; iMoney <= money - coin; iMoney++) {
+      // if (res[iMoney].length === 0) continue
+      const subChange = res[iMoney]
       const newChg = subChange.map((x) => x.concat(coin))
-      res[iMoney] = res[iMoney].concat(newChg)
+      res[iMoney + coin] = res[iMoney + coin].concat(newChg)
     }
+  }
 
   return res[money]
 }
@@ -125,6 +125,6 @@ const result5 = changeRecTer(target, coins)
 console.timeEnd("changeRecTer")
 
 console.time("changeTabExhaustive")
-const result6 = changeTabExhaustive(target, coins)
+// const result6 = changeTabExhaustive(target, coins)
 //console.log(result6)
 console.timeEnd("changeTabExhaustive")
