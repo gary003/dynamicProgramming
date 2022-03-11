@@ -2,14 +2,15 @@ const combinations1Var = (arr) => {
   let result = [""]
 
   for (let letter of arr) {
-    result = result.concat(result.map((val) => val.concat(letter)))
+    const newValues = result.map((val) => val.concat(letter))
+    result = result.concat(newValues)
   }
 
   return result
 }
 
 const combinationsTab = (arr) => {
-  const table = Array(arr.length + 1).fill(null)
+  const table = Array(arr.length + 1).fill()
   table[0] = [""]
 
   for (let i = 0; i < arr.length; i += 1) {
@@ -28,7 +29,7 @@ const combinationsHO = (arr) => {
   )[arr.length]
 }
 
-const combinationsRedableHO = (arr) => {
+const combinationsRedableHOF = (arr) => {
   const table = Array(arr.length).fill(null)
   table[0] = [""]
 
@@ -41,21 +42,22 @@ const combinationsRedableHO = (arr) => {
     },
     [[""]]
   )
+
   return resultTable[arr.length]
 }
 
-const combinationsTreeDP = (cards) => {
+const combinationsRec = (cards) => {
   if (cards.length == 0) return [""]
   const [card, ...rest] = cards
 
-  const allcombsWithoutCard = combinationsTreeDP(rest)
+  const allcombsWithoutCard = combinationsRec(rest)
   const allCombsWithCard = []
 
   for (let c of allcombsWithoutCard) {
-    allCombsWithCard.push([card, ...c].join(""))
+    allCombsWithCard.push(card.concat(c))
   }
 
-  return [...allCombsWithCard, ...allcombsWithoutCard]
+  return allcombsWithoutCard.concat(allCombsWithCard)
 }
 
 const combinationsTree = (cards, hand = [], allHands = [], shift = false) => {
@@ -72,7 +74,7 @@ const combinationsTree = (cards, hand = [], allHands = [], shift = false) => {
   return allHands
 }
 
-const testArray = "ABCDEFGHI".split("")
+const testArray = "ABCDEFGHIJKLMNOP".split("")
 
 console.time("combinations1Var")
 const comb6 = combinations1Var(testArray)
@@ -89,15 +91,15 @@ const comb4 = combinationsHO(testArray)
 // console.log(comb4)
 console.timeEnd("combinationsHO")
 
-console.time("combinationsRedableHO")
-const comb5 = combinationsRedableHO(testArray)
+console.time("combinationsRedableHOF")
+const comb5 = combinationsRedableHOF(testArray)
 // console.log(comb5)
-console.timeEnd("combinationsRedableHO")
+console.timeEnd("combinationsRedableHOF")
 
-console.time("combinationsTreeDP")
-const comb2 = combinationsTreeDP(testArray)
-// console.log((comb2)
-console.timeEnd("combinationsTreeDP")
+console.time("combinationsRec")
+const comb2 = combinationsRec(testArray)
+// console.log(comb2)
+console.timeEnd("combinationsRec")
 
 console.time("combinationsTree")
 const comb1 = combinationsTree(testArray)
